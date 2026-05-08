@@ -1,9 +1,9 @@
 {
     "name": "home-harness",
-    "version": "1.2.0",
+    "version": "1.3.0",
     "description": "Custom Claude Code plugins for project bootstrapping and development",
     "owner": {
-        "name": "Multiverse"
+        "name": "JAghiCodes"
     },
     "plugins": [
         {

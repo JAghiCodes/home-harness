@@ -1,8 +1,8 @@
-# MV Claude Harness
+# Home Harness
 
 > A workflow harness for Claude Code: plan-driven development, multi-agent review, and a learning loop that compounds across sessions.
 
-[![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)](https://github.com/Multiverse-io/mv-claude-harness)
+[![Version](https://img.shields.io/badge/version-1.3.0-blue.svg)](https://github.com/JAghiCodes/home-harness)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Compatible-purple.svg)](https://claude.ai)
 
 ## Why this exists
@@ -51,8 +51,8 @@ mode                    /a11y     │
 ## Install
 
 ```
-/plugin marketplace add Multiverse-io/mv-claude-harness
-/plugin install core@mv-claude-harness
+/plugin marketplace add JAghiCodes/home-harness
+/plugin install core@home-harness
 ```
 
 To install manually, clone the repo and copy `core/` into your Claude Code plugins directory.
@@ -156,9 +156,9 @@ plans/            auto-organised plan folders (created on demand by the rename-p
 
 ## Contributing · Support
 
-- Issues and feature requests: [GitHub Issues](https://github.com/Multiverse-io/mv-claude-harness/issues)
-- Discussions: [GitHub Discussions](https://github.com/Multiverse-io/mv-claude-harness/discussions)
+- Issues and feature requests: [GitHub Issues](https://github.com/JAghiCodes/home-harness/issues)
+- Discussions: [GitHub Discussions](https://github.com/JAghiCodes/home-harness/discussions)
 
 ---
 
-Built by Multiverse.
+Built by JAghiCodes.
