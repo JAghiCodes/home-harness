@@ -1,6 +1,6 @@
 {
-    "name": "mv-claude-harness",
-    "version": "1.1.0",
+    "name": "home-harness",
+    "version": "1.2.0",
     "description": "Custom Claude Code plugins for project bootstrapping and development",
     "owner": {
         "name": "Multiverse"
