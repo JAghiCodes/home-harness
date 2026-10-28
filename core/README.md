@@ -10,7 +10,7 @@ Components mapped onto the lifecycle:
 |--------|---------------------------------------------------------------------------|
 | Plan   | `rename-plan` hook · `/plan-status`                                       |
 | Build  | `feature-creator`, `code-explorer`, `claude-md-generator` agents          |
-| Review | `/review` · `code-reviewer`, `security-reviewer`, `tech-debt-reviewer` agents |
+| Review | `/review` · `code-reviewer`, `security-reviewer`, `tech-debt-reviewer` agents · `adversarial-reviewer` for anything that gates |
 | Test   | `/pw-test`, `/a11y-audit` · `test-generator` agent · `playwright-cli`, `a11y-audit` skills |
 | Learn  | `/wrap-up` · `learn`, `wrap-up` skills · `documentation-generator` agent  |
 | Ship   | `/commit`, `/gen-changelog`, `/wt-merge` · `gen-changelog`, `wt-merge`, `github-project-tickets` skills |
@@ -24,6 +24,7 @@ Long-running, autonomous workers for complex tasks.
 | `code-reviewer` | Logic bugs, edge cases, convention violations |
 | `security-reviewer` | Vulnerability scanning, unsafe patterns, exposed secrets |
 | `tech-debt-reviewer` | Maintainability, dead code, duplication |
+| `adversarial-reviewer` | Tries to *defeat* a gate, policy or validator rather than read it — constructs the input that produces a false pass. Use on anything that decides pass/fail, including the harness's own checks |
 | `test-generator` | Runner-agnostic TypeScript unit tests (Jest / Vitest / `node:test`); follows host project's testing standards |
 | `feature-creator` | End-to-end feature implementation |
 | `documentation-generator` | Architectural docs (the "why" / navigation); detects host's doc convention (CLAUDE.md / AGENTS.md / etc.) and updates in place |
