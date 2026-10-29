@@ -1,5 +1,5 @@
 {
-  "description": "Automatic plan organization hooks",
+  "description": "Workflow harness hooks: plan organisation, manifest lint, session continuity",
   "hooks": {
     "PostToolUse": [
       {
@@ -8,6 +8,31 @@
           {
             "type": "command",
             "command": "${CLAUDE_PLUGIN_ROOT}/scripts/rename-plan.sh"
+          },
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/lint-plugin-manifests.sh"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/session-compact-context.sh"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/session-end-breadcrumb.sh"
           }
         ]
       }
