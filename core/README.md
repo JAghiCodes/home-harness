@@ -24,6 +24,7 @@ Long-running, autonomous workers for complex tasks.
 | `code-reviewer` | Logic bugs, edge cases, convention violations |
 | `security-reviewer` | Vulnerability scanning, unsafe patterns, exposed secrets |
 | `tech-debt-reviewer` | Maintainability, dead code, duplication |
+| `integration-reviewer` | Judges a change against the system it joins rather than the diff alone — duplicated capability, contracts honoured at one end only, code nothing invokes, callers outside the diff |
 | `adversarial-reviewer` | Tries to *defeat* a gate, policy or validator rather than read it — constructs the input that produces a false pass. Use on anything that decides pass/fail, including the harness's own checks |
 | `test-generator` | Runner-agnostic TypeScript unit tests (Jest / Vitest / `node:test`); follows host project's testing standards |
 | `feature-creator` | End-to-end feature implementation |
