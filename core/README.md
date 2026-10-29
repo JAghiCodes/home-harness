@@ -31,6 +31,7 @@ Long-running, autonomous workers for complex tasks.
 | `documentation-generator` | Architectural docs (the "why" / navigation); detects host's doc convention (CLAUDE.md / AGENTS.md / etc.) and updates in place |
 | `claude-md-generator` | Bootstraps CLAUDE.md steering files |
 | `code-explorer` | Codebase navigation and understanding |
+| `design-reviewer` | Compares a simulator screenshot against the Figma frame a PR cites - spacing, colour, typography, missing or extra elements. Read-only, no Bash: the caller resolves the reference and passes it in |
 | `verifier` | Fresh-context adversarial verification — tries to REFUTE a claimed outcome by running the repo's real gates before work is called done. Read-and-run only, never fixes |
 | `scout` | Read-only reconnaissance on the cheapest model (haiku) — search and lookup with `file:line` refs. First tier before an executor |
 | `mech-executor` | Mechanical, fully-specified execution (sonnet) — pattern refactors, renames, bulk edits. Escalates to `executor` after two failed attempts |
