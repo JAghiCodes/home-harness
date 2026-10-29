@@ -1,11 +1,14 @@
-# Porting from `ai-toolkit` (enrichment sync)
+# Porting from upstream (enrichment sync)
 
-This harness (`JonMVerse/Jon-Harness`) and the org's `ai-toolkit`
-(`Multiverse-io/ai-toolkit`, the `upstream` remote) have **no shared git
-history** and **different layouts**. So they cannot be synced with
+This harness (`JAghiCodes/home-harness`) descends from
+`Multiverse-io/mv-claude-harness` by way of `JonMVerse/Jon-Harness`, with **no
+shared git history** and **different layouts**. So it cannot be synced with
 `git merge`/`rebase` — syncing is **change-level porting**, one item at a time,
-`ai-toolkit → here`. The goal is to stay enriched with org changes while keeping
-this fork's preferred ways of working.
+`upstream → here`. The goal is to stay enriched with upstream changes while
+keeping this fork's preferred ways of working.
+
+`scripts/upstream-gap.sh` lists what differs. Add the source as a remote
+first; it is not configured by default.
 
 This is a maintenance process for *this repo*, deliberately **not** a plugin
 skill — a skill would ship to marketplace consumers who have no `upstream`
@@ -77,3 +80,32 @@ a skill that dispatches upstream workers, retarget the references:
 - Shared skills already in sync (identical line counts) — nothing to gain.
 - `build` verbatim — adapt to our executor tier / `linear-build` instead.
 - `suggested/*` unless deliberately adopting an RFC (it's pre-promotion, org-experimental).
+
+
+## Sync record
+
+### 2026-10-29 — `JonMVerse/Jon-Harness` @ core v3.16.1
+
+Ported: `lint-plugin-manifests.sh`, `session-compact-context.sh`,
+`session-end-breadcrumb.sh`, `bash-gate.sh`, the `rename-plan.sh` hardening;
+agents `verifier`, `scout`, `mech-executor`, `executor`, `doc-digest`; skills
+`investigate`, `plan`, `doc-update`, `skill-audit`, `security-review`,
+`goal-prep`; upstream `/warp`, `/commit`, `/review` and the confidence-scoring
+reviewer model; `templates/`, this file and `scripts/upstream-gap.sh`.
+
+**Declined, deliberately — do not re-port without a new decision:**
+
+| Item | Why not |
+|---|---|
+| `atlas-ai-assessment`, `atlas-verify` | Call Multiverse's Atlas service. |
+| `langfuse-query` | Langfuse instance we don't have. |
+| `linear-em-dashboard`, `/linear-build`, `delivery-reality-check` | Linear-backed; tickets here are Trello. |
+| `mv-slides`, `onboarding-clone` | Multiverse templates / Coda. |
+| `weekly-coach`, `cowork-insights` | Framed against Multiverse's Manager Expectations. |
+| `security/` plugin | 6 governance agents + EU AI Act corpus, shaped around Multiverse's compliance obligations. |
+| `typescript-standards/` plugin | Their ESLint config and TS conventions; this fork's main consumer is Swift + Supabase. |
+| "Socratic, pedagogical mode" block in the reviewers | "Be verbose about output" inflates every review and fights the confidence triage that replaced it. |
+| Upstream root `README.md` / `CLAUDE.md` / `core/README.md` | Multiverse branding, multi-plugin layout, and agent catalogues that don't know about this fork's extra agents. Port the *rules* out of them, never the files. |
+
+A dead skill is not free: every registered skill's name and description load
+into every session's initial context.
