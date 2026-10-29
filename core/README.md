@@ -31,6 +31,11 @@ Long-running, autonomous workers for complex tasks.
 | `documentation-generator` | Architectural docs (the "why" / navigation); detects host's doc convention (CLAUDE.md / AGENTS.md / etc.) and updates in place |
 | `claude-md-generator` | Bootstraps CLAUDE.md steering files |
 | `code-explorer` | Codebase navigation and understanding |
+| `verifier` | Fresh-context adversarial verification — tries to REFUTE a claimed outcome by running the repo's real gates before work is called done. Read-and-run only, never fixes |
+| `scout` | Read-only reconnaissance on the cheapest model (haiku) — search and lookup with `file:line` refs. First tier before an executor |
+| `mech-executor` | Mechanical, fully-specified execution (sonnet) — pattern refactors, renames, bulk edits. Escalates to `executor` after two failed attempts |
+| `executor` | Implementation needing judgment (opus) — features, bug fixes, design-sensitive refactors |
+| `doc-digest` | Compresses a long document into a fixed digest on the cheapest model, for handoffs |
 
 Invoke via `/agent <name>` or trigger automatically through the commands that compose them (e.g. `/review`).
 
@@ -40,7 +45,7 @@ Quick, single-shot slash commands.
 
 | Command | Purpose |
 |---------|---------|
-| `/review` | Multi-agent review — fans out to `code-reviewer`, `security-reviewer`, `tech-debt-reviewer` in parallel and synthesises the results |
+| `/review` | Multi-agent review — fans out to `code-reviewer`, `security-reviewer`, `tech-debt-reviewer` in parallel and triages the results by severity and confidence (reviewers score 0-100; the verdict rests on findings ≥75) |
 | `/commit` | Conventional-format commit; updates CLAUDE.md if affected; preps changelog content |
 | `/pw-test` | Exploratory Playwright testing then E2E test generation |
 | `/a11y-audit` | WCAG accessibility audit on changed files |
@@ -67,10 +72,26 @@ Capabilities Claude invokes automatically when relevant.
 | `product-lens` | Strategic product questions arise before building |
 | `wrap-up` | Closing out plan execution |
 | `wt-merge` | Merging worktree branches |
+| `investigate` | Mapping an unfamiliar area before planning — fans out `scout` workers, returns a verified Findings Brief |
+| `plan` | Turning a Findings Brief or session context into a formal, executable plan at high effort |
+| `doc-update` | Propagating a session's changes into the project's documentation |
+| `skill-audit` | Auditing the skill registry for trigger quality, overlap and context bloat |
+| `security-review` | Reference library for `security-reviewer` — vulnerability patterns, severity rubric, report templates |
+| `goal-prep` | Shaping a plan or session output into a paste-ready `/goal` condition string |
 
 ## Hooks
 
-`hooks/hooks.json` registers a `PostToolUse` hook on `Write|Edit|MultiEdit` that calls `scripts/rename-plan.sh`. The script:
+`hooks/hooks.json` registers four events:
+
+| Event | Script | What it does |
+|---|---|---|
+| `PreToolUse(Bash)` | `bash-gate.sh` | Denies a small, conservative set of destructive commands (`rm -rf` on `/` or `~`, force-push to main, `curl\|sh`, device overwrites, `chmod 777 /`) and audit-logs every command. `--force-with-lease` is exempt. |
+| `PostToolUse(Write\|Edit\|MultiEdit)` | `rename-plan.sh` | Plan capture — see below. |
+| `PostToolUse(Write\|Edit\|MultiEdit)` | `lint-plugin-manifests.sh` | Enforces this repo's two authoring rules: every `skills/<dir>` registered in `plugin.json`, and `marketplace.json` mirroring each plugin version. Exits 2 as feedback; does not block the write. |
+| `SessionStart(compact)` | `session-compact-context.sh` | Re-injects live git state and the active plan's worklog after a compaction, read from disk. Zero model calls. |
+| `SessionEnd` | `session-end-breadcrumb.sh` | Appends one line per session to `.claude/session-breadcrumbs.log`, self-excluded via `.git/info/exclude`. |
+
+`rename-plan.sh`:
 
 - **Mirrors plan-mode files** from `~/.claude/plans/<slug>.md` into the running project's `plans/YYYY-MM-DD-<slug>/plan.md` (uses `$CLAUDE_PROJECT_DIR`). This is the primary path — it captures plans authored via Claude Code's plan mode into the repo automatically.
 - **Organises in-project drafts** at `<project>/plans/.tmp/<slug>.md` into the same dated-folder layout (sibling, not under `.tmp/`).

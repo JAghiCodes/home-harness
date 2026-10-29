@@ -1,7 +1,7 @@
 {
   "name": "core",
   "description": "Core utils for working with Claude Code - agents, commands, skills, and workflow automation",
-  "version": "2.10.0",
+  "version": "2.12.0",
   "author": {
     "name": "JAghiCodes"
   },
@@ -15,12 +15,18 @@
   ],
   "skills": [
     "./skills/a11y-audit",
+    "./skills/doc-update",
     "./skills/gen-changelog",
     "./skills/github-project-tickets",
+    "./skills/goal-prep",
+    "./skills/investigate",
     "./skills/learn",
     "./skills/optimize-doc",
+    "./skills/plan",
     "./skills/playwright-cli",
     "./skills/product-lens",
+    "./skills/security-review",
+    "./skills/skill-audit",
     "./skills/wrap-up",
     "./skills/wt-merge"
   ]
